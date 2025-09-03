@@ -139,12 +139,6 @@ const LiveFeedPage = () => {
                 muted
                 className={`video-feed ${isStreaming ? 'streaming' : ''}`}
               />
-              {!isStreaming && (
-                <div className="video-placeholder">
-                  <div className="placeholder-icon">📷</div>
-                  <p>Click "Start Live Feed" to begin</p>
-                </div>
-              )}
               {isAnalyzing && (
                 <div className="analyzing-overlay">
                   <div className="spinner"></div>
