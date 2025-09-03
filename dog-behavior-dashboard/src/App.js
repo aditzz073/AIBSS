@@ -6,6 +6,7 @@ import AnalysisPage from './pages/AnalysisPage/AnalysisPage';
 import VideoAnalysisPage from './pages/VideoAnalysisPage/VideoAnalysisPage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
 import LiveFeedPage from './pages/LiveFeedPage/LiveFeedPage';
+import HeatmapPage from './pages/HeatmapPage/HeatmapPage';
 import AboutPage from './pages/AboutPage/AboutPage';
 import './App.css';
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/video-analysis" element={<VideoAnalysisPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/live" element={<LiveFeedPage />} />
+            <Route path="/heatmap" element={<HeatmapPage />} />
             <Route path="/about" element={<AboutPage />} />
           </Routes>
         </main>

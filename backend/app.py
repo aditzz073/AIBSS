@@ -176,6 +176,63 @@ async def analyze_live_frame(file: UploadFile = File(...)):
         logger.error(f"Error in analyze_live: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
+@app.get("/detections")
+async def get_detections():
+    """
+    Get detection data for heatmap visualization.
+    
+    Returns:
+        JSON response with detection data including lat, lon, risk, label, timestamp
+    """
+    try:
+        # TODO: Replace with real detection data from database
+        # For now, returning mock data for testing
+        import datetime
+        import random
+        
+        # Generate mock detection data with realistic timestamps
+        mock_detections = []
+        
+        # Base coordinates for Bangalore area
+        base_lat = 12.9716
+        base_lon = 77.5946
+        
+        # Generate 10-15 random detections
+        num_detections = random.randint(10, 15)
+        
+        for i in range(num_detections):
+            # Random location within ~5km radius of Bangalore center
+            lat_offset = random.uniform(-0.05, 0.05)
+            lon_offset = random.uniform(-0.05, 0.05)
+            
+            # Random risk score
+            risk = random.uniform(0.1, 0.95)
+            
+            # Label based on risk (higher risk more likely to be aggressive)
+            label = "Aggressive" if risk > 0.5 else "Non-Aggressive"
+            
+            # Random timestamp within last 2 hours
+            minutes_ago = random.randint(5, 120)
+            timestamp = datetime.datetime.now() - datetime.timedelta(minutes=minutes_ago)
+            
+            detection = {
+                "lat": round(base_lat + lat_offset, 6),
+                "lon": round(base_lon + lon_offset, 6),
+                "risk": round(risk, 2),
+                "label": label,
+                "timestamp": timestamp.isoformat()
+            }
+            
+            mock_detections.append(detection)
+        
+        logger.info(f"Returning {len(mock_detections)} detection records")
+        
+        return JSONResponse(content=mock_detections)
+        
+    except Exception as e:
+        logger.error(f"Error getting detections: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+
 @app.get("/model/info")
 async def get_model_info():
     """Get information about the loaded model."""
@@ -207,6 +264,7 @@ async def root():
             "analyze_image": "/analyze_image",
             "analyze_video": "/analyze_video",
             "analyze_live": "/analyze_live",
+            "detections": "/detections",
             "model_info": "/model/info"
         },
         "docs": "/docs"

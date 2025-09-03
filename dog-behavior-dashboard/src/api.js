@@ -158,3 +158,55 @@ export const canvasToFile = (canvas, filename = 'frame.jpg', quality = 0.8) => {
     }, 'image/jpeg', quality);
   });
 };
+
+// Get detections for heatmap
+export const getDetections = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/detections`);
+    return await handleResponse(response);
+  } catch (error) {
+    console.error('Failed to get detections:', error);
+    
+    // Fallback to mock data if backend is unavailable
+    console.warn('Falling back to mock data due to API error');
+    const mockDetections = [
+      {
+        lat: 12.9716,
+        lon: 77.5946,
+        risk: 0.85,
+        label: 'Aggressive',
+        timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+      },
+      {
+        lat: 12.9648,
+        lon: 77.5986,
+        risk: 0.45,
+        label: 'Non-Aggressive',
+        timestamp: new Date(Date.now() - 1000 * 60 * 60).toISOString(),
+      },
+      {
+        lat: 12.9750,
+        lon: 77.5900,
+        risk: 0.75,
+        label: 'Aggressive',
+        timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
+      },
+      {
+        lat: 12.9680,
+        lon: 77.6020,
+        risk: 0.25,
+        label: 'Non-Aggressive',
+        timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+      },
+      {
+        lat: 12.9800,
+        lon: 77.5850,
+        risk: 0.95,
+        label: 'Aggressive',
+        timestamp: new Date(Date.now() - 1000 * 60 * 10).toISOString(),
+      }
+    ];
+    
+    return mockDetections;
+  }
+};

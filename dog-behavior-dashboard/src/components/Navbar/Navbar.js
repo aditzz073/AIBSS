@@ -58,6 +58,13 @@ const Navbar = () => {
             Dashboard
           </Link>
           <Link 
+            to="/heatmap" 
+            className={`nav-link ${isActive('/heatmap')}`}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Heatmap
+          </Link>
+          <Link 
             to="/about" 
             className={`nav-link ${isActive('/about')}`}
             onClick={() => setIsMenuOpen(false)}
