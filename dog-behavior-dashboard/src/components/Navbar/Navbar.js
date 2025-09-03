@@ -18,7 +18,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="nav-container">
         <Link to="/" className="nav-logo">
-          � DogCare
+          <img src="/dog.png" alt="DogCare" className="nav-logo-img" />
         </Link>
         
         <div className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
