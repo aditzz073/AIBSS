@@ -34,14 +34,14 @@ const Navbar = () => {
             className={`nav-link ${isActive('/analysis')}`}
             onClick={() => setIsMenuOpen(false)}
           >
-            Analysis
+            Upload Image
           </Link>
           <Link 
-            to="/dashboard" 
-            className={`nav-link ${isActive('/dashboard')}`}
+            to="/video-analysis" 
+            className={`nav-link ${isActive('/video-analysis')}`}
             onClick={() => setIsMenuOpen(false)}
           >
-            Dashboard
+            Upload Video
           </Link>
           <Link 
             to="/live" 
@@ -49,6 +49,13 @@ const Navbar = () => {
             onClick={() => setIsMenuOpen(false)}
           >
             Live Feed
+          </Link>
+          <Link 
+            to="/dashboard" 
+            className={`nav-link ${isActive('/dashboard')}`}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Dashboard
           </Link>
           <Link 
             to="/about" 

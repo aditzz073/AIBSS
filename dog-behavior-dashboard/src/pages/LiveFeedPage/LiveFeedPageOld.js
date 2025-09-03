@@ -70,7 +70,10 @@ const LiveFeedPage = () => {
     setError(null);
     
     // Start analyzing frames every 3 seconds
-    const interval = setInterval(captureAndAnalyze, 3000);
+    const interval = setInterval(() => {
+      captureAndAnalyze();
+    }, 3000);
+    
     setAnalysisInterval(interval);
   }, [captureAndAnalyze]);
 
@@ -90,7 +93,7 @@ const LiveFeedPage = () => {
   // Handle webcam user media error
   const handleUserMediaError = useCallback((error) => {
     console.error('Webcam error:', error);
-    setError('Unable to access webcam. Please ensure you have granted camera permissions.');
+    setError('Unable to access webcam. Please ensure you have granted camera permissions and your camera is not being used by another application.');
     setIsStreaming(false);
   }, []);
 
@@ -128,7 +131,7 @@ const LiveFeedPage = () => {
                   />
                 ) : (
                   <div className="webcam-placeholder">
-                    <div className="placeholder-icon">📹</div>
+                    <div className="placeholder-icon">�</div>
                     <p>Webcam feed will appear here</p>
                   </div>
                 )}
@@ -177,67 +180,74 @@ const LiveFeedPage = () => {
                   </button>
                 </div>
               )}
+                </button>
+              </div>
+            )}
 
-              {prediction && !error && (
-                <div className="analysis-results">
-                  <div className={`result-card ${prediction.behavior?.toLowerCase() === 'aggressive' ? 'aggressive' : 'non-aggressive'}`}>
-                    <div className={`result-header ${prediction.behavior?.toLowerCase() === 'aggressive' ? 'aggressive' : 'non-aggressive'}`}>
-                      <div className="result-icon">
-                        {prediction.error ? '❌' :
-                         prediction.behavior?.toLowerCase() === 'aggressive' ? '😠' : 
-                         prediction.behavior?.toLowerCase() === 'non-aggressive' ? '😌' : '🤔'}
-                      </div>
-                      <div className="result-info">
-                        <div className="result-label">Behavior Classification</div>
-                        <div className="result-value">
-                          {prediction.behavior}
-                        </div>
-                      </div>
+            {prediction && !error && (
+              <div className="prediction-result">
+                <div className={`result-card ${prediction.behavior?.toLowerCase() === 'aggressive' ? 'aggressive' : 'non-aggressive'}`}>
+                  <div className={`result-header ${prediction.behavior?.toLowerCase() === 'aggressive' ? 'aggressive' : 'non-aggressive'}`}>
+                    <div className="result-icon">
+                      {prediction.behavior?.toLowerCase() === 'aggressive' ? '�' : 
+                       prediction.behavior?.toLowerCase() === 'non-aggressive' ? '😌' :
+                       prediction.behavior?.toLowerCase() === 'calm' ? '�' :
+                       prediction.behavior?.toLowerCase() === 'playful' ? '😊' :
+                       prediction.behavior?.toLowerCase() === 'anxious' ? '😰' : '🤔'}
                     </div>
-                    
-                    {prediction.confidence > 0 && !prediction.error && (
-                      <div className="confidence-section">
-                        <div className="confidence-label">
-                          Confidence: {Math.round(prediction.confidence * 100)}%
-                        </div>
-                        <div className="confidence-bar">
-                          <div 
-                            className="confidence-fill"
-                            style={{ width: `${prediction.confidence * 100}%` }}
-                          ></div>
-                        </div>
+                    <div className="result-info">
+                      <div className="result-label">Current Behavior</div>
+                      <div className="result-value">
+                        {prediction.behavior}
                       </div>
-                    )}
-
-                    <div className="analysis-meta">
-                      <p><strong>Last updated:</strong> {prediction.timestamp}</p>
-                      {prediction.processing_time && (
-                        <p><strong>Processing time:</strong> {prediction.processing_time.toFixed(2)}s</p>
-                      )}
-                      {prediction.error && prediction.errorMessage && (
-                        <p className="error-detail"><strong>Error:</strong> {prediction.errorMessage}</p>
-                      )}
                     </div>
                   </div>
-                </div>
-              )}
+                  
+                  {prediction.confidence > 0 && (
+                    <div className="confidence-section">
+                      <div className="confidence-label">
+                        Confidence: {Math.round(prediction.confidence * 100)}%
+                      </div>
+                      <div className="confidence-bar">
+                        <div 
+                          className="confidence-fill"
+                          style={{ width: `${prediction.confidence * 100}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
 
-              {!prediction && !error && isStreaming && (
-                <div className="waiting-message">
-                  <div className="waiting-icon">🔄</div>
-                  <p>Waiting for analysis results...</p>
-                  <small>Analysis starts automatically every 3 seconds</small>
-                </div>
-              )}
+                  <div className="analysis-meta">
+                    <p><strong>Last updated:</strong> {prediction.timestamp}</p>
+                    {prediction.processing_time && (
+                      <p><strong>Processing time:</strong> {prediction.processing_time.toFixed(2)}s</p>
+                    )}
+                  </div>
 
-              {!prediction && !error && !isStreaming && (
-                <div className="no-data-message">
-                  <div className="no-data-icon">📊</div>
-                  <p>No analysis data yet</p>
-                  <small>Start the live feed to see results</small>
+                  {prediction.error && (
+                    <div className="prediction-error">
+                      <p>⚠️ {prediction.errorMessage || 'Analysis failed'}</p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+
+            {!prediction && !error && isStreaming && (
+              <div className="waiting-message">
+                <div className="pulse-icon">🔄</div>
+                <p>Waiting for analysis results...</p>
+                <small>Analysis runs automatically every 3 seconds</small>
+              </div>
+            )}
+
+            {!prediction && !error && !isStreaming && (
+              <div className="no-data-message">
+                <div className="no-data-icon">📊</div>
+                <p>No analysis data yet</p>
+                <small>Start the live feed to see results</small>
+              </div>
+            )}
           </div>
         </div>
 
@@ -255,10 +265,10 @@ const LiveFeedPage = () => {
           <div className="info-card">
             <h4>Tips for best results</h4>
             <ul>
-              <li>🎯 Ensure your dog is clearly visible in the frame</li>
-              <li>💡 Use good lighting conditions</li>
-              <li>📐 Keep the camera steady for best analysis</li>
-              <li>🐕 Single dog in frame works best</li>
+              <li>🎯 Keep your dog clearly visible in the frame</li>
+              <li>� Ensure good lighting conditions</li>
+              <li>� Position camera at dog's eye level</li>
+              <li>� Audio is not required for analysis</li>
             </ul>
           </div>
         </div>

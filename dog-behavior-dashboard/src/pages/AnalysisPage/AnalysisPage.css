@@ -114,8 +114,8 @@
   margin-bottom: 3rem;
 }
 
-/* Video Section */
-.video-card {
+/* Video Section and Image Section */
+.video-card, .image-card {
   background: white;
   border-radius: 20px;
   padding: 2rem;
@@ -124,11 +124,11 @@
   transition: all 0.3s ease;
 }
 
-.video-card:hover {
+.video-card:hover, .image-card:hover {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
 
-.video-header {
+.video-header, .image-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -137,12 +137,44 @@
   border-bottom: 1px solid #f3f4f6;
 }
 
-.video-header h3 {
+.video-header h3, .image-header h3 {
   font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: #1f2937;
   margin: 0;
+}
+
+/* Image specific styles */
+.image-container {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 2px dashed #e2e8f0;
+  transition: border-color 0.3s ease;
+  text-align: center;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.image-info, .video-info {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.image-info p, .video-info p {
+  margin: 0.5rem 0;
+  color: #4b5563;
+  font-size: 0.9rem;
 }
 
 .video-container {
@@ -334,6 +366,166 @@
   font-size: 0.8rem;
   color: #9ca3af;
   font-style: italic;
+}
+
+/* Loading and Error States */
+.loading-message {
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  color: #dc2626;
+  margin-bottom: 1rem;
+}
+
+.error-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Analysis Results */
+.analysis-results {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.result-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 2px solid;
+  transition: all 0.3s ease;
+}
+
+.result-card.aggressive {
+  border-color: #dc2626;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+}
+
+.result-card.non-aggressive {
+  border-color: #059669;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.result-header.aggressive {
+  color: #dc2626;
+}
+
+.result-header.non-aggressive {
+  color: #059669;
+}
+
+.result-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.result-info {
+  flex: 1;
+}
+
+.result-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  opacity: 0.8;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.result-value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.confidence-section {
+  margin-bottom: 1rem;
+}
+
+.confidence-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+}
+
+.confidence-bar {
+  height: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.confidence-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #059669);
+  transition: width 0.6s ease-in-out;
+  border-radius: 5px;
+}
+
+.analysis-meta {
+  padding-top: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.analysis-meta p {
+  margin: 0.25rem 0;
+}
+
+.analysis-meta strong {
+  color: #374151;
+}
+
+.bounding-box-info {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border-left: 4px solid #3b82f6;
+}
+
+.bounding-box-info h4 {
+  color: #1f2937;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.bounding-box-info p {
+  margin: 0.5rem 0;
+  color: #4b5563;
+  font-size: 0.9rem;
 }
 
 /* Chart Section */
