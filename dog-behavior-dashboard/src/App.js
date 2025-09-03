@@ -4,7 +4,6 @@ import Navbar from './components/Navbar/Navbar';
 import HomePage from './pages/HomePage/HomePage';
 import AnalysisPage from './pages/AnalysisPage/AnalysisPage';
 import VideoAnalysisPage from './pages/VideoAnalysisPage/VideoAnalysisPage';
-import DashboardPage from './pages/DashboardPage/DashboardPage';
 import LiveFeedPage from './pages/LiveFeedPage/LiveFeedPage';
 import HeatmapPage from './pages/HeatmapPage/HeatmapPage';
 import AboutPage from './pages/AboutPage/AboutPage';
@@ -20,7 +19,6 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/analysis" element={<AnalysisPage />} />
             <Route path="/video-analysis" element={<VideoAnalysisPage />} />
-            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/live" element={<LiveFeedPage />} />
             <Route path="/heatmap" element={<HeatmapPage />} />
             <Route path="/about" element={<AboutPage />} />

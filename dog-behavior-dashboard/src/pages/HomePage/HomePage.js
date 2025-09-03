@@ -39,10 +39,6 @@ const HomePage = () => {
                 <span>📹</span>
                 Live Feed
               </Link>
-              <Link to="/dashboard" className="btn btn-secondary">
-                <span>📊</span>
-                View Dashboard
-              </Link>
             </div>
           </div>
           

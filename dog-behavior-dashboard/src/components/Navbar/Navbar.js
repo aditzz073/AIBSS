@@ -51,13 +51,6 @@ const Navbar = () => {
             Live Feed
           </Link>
           <Link 
-            to="/dashboard" 
-            className={`nav-link ${isActive('/dashboard')}`}
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Dashboard
-          </Link>
-          <Link 
             to="/heatmap" 
             className={`nav-link ${isActive('/heatmap')}`}
             onClick={() => setIsMenuOpen(false)}
