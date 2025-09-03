@@ -74,48 +74,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-
-      {/* Stats Section */}
-      <section className="stats-section">
-        <div className="stats-container">
-          <div className="stat-item">
-            <div className="stat-number">98.5%</div>
-            <div className="stat-label">Accuracy</div>
-          </div>
-          <div className="stat-item">
-            <div className="stat-number">10,000+</div>
-            <div className="stat-label">Videos Processed</div>
-          </div>
-          <div className="stat-item">
-            <div className="stat-number">Real-time</div>
-            <div className="stat-label">Detection</div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Preview */}
-      <section className="features-preview">
-        <div className="features-container">
-          <h2 className="features-title">Why Choose DogCare AI?</h2>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">🎯</div>
-              <h3>Precise Detection</h3>
-              <p>Advanced AI algorithms ensure accurate behavior classification with minimal false positives.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">⚡</div>
-              <h3>Real-time Monitoring</h3>
-              <p>Instant alerts and live analysis keep you informed about your dog's behavior patterns.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">�</div>
-              <h3>Easy to Use</h3>
-              <p>Simple interface designed for pet owners, trainers, and veterinarians alike.</p>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

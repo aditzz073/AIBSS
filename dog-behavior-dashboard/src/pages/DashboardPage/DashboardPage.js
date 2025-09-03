@@ -167,7 +167,7 @@ const DashboardPage = () => {
             </div>
             
             <div className="stat-card">
-              <div className="stat-icon">😠</div>
+              <div className="stat-icon">⚠️</div>
               <div className="stat-content">
                 <div className="stat-number">{stats.avgAggressive}%</div>
                 <div className="stat-label">Avg. Aggressive Behavior</div>

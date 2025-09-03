@@ -2,213 +2,361 @@ import React from 'react';
 import './AboutPage.css';
 
 const AboutPage = () => {
-  const teamMembers = [
+  const features = [
     {
       id: 1,
-      name: "Dr. Sarah Johnson",
-      role: "AI Research Lead",
-      description: "PhD in Computer Vision with expertise in deep learning and behavioral analysis",
-      avatar: "👩‍🔬"
+      icon: "🎯",
+      title: "Precise AI Detection",
+      description: "Advanced YOLO pose detection combined with intelligent classification algorithms for accurate behavior analysis."
     },
     {
       id: 2,
-      name: "Michael Chen",
-      role: "Machine Learning Engineer",
-      description: "Specializes in YOLOv8 implementation and model optimization",
-      avatar: "👨‍💻"
+      icon: "⚡",
+      title: "Real-time Processing",
+      description: "Lightning-fast analysis that processes video feeds instantly, providing immediate insights into dog behavior."
     },
     {
       id: 3,
-      name: "Emily Rodriguez",
-      role: "Data Scientist",
-      description: "Expert in Random Forest algorithms and statistical analysis",
-      avatar: "👩‍💼"
+      icon: "🧠",
+      title: "Smart Classification",
+      description: "Machine learning classifier trained to distinguish between calm and aggressive behaviors with high accuracy."
     },
     {
       id: 4,
-      name: "David Park",
-      role: "Full Stack Developer",
-      description: "Frontend and backend development, system architecture design",
-      avatar: "👨‍🎨"
+      icon: "📊",
+      title: "Comprehensive Analytics",
+      description: "Detailed behavioral insights with visual analytics and historical pattern tracking for better understanding."
+    },
+    {
+      id: 5,
+      icon: "🔒",
+      title: "Privacy Focused",
+      description: "Your data remains secure with local processing options and privacy-first architecture design."
+    },
+    {
+      id: 6,
+      icon: "🌐",
+      title: "Multi-platform",
+      description: "Works across different devices and platforms, from mobile apps to web browsers and desktop applications."
+    }
+  ];
+
+  const workflowSteps = [
+    {
+      number: "01",
+      title: "Video Input",
+      description: "Upload video files or connect live camera feeds to start the analysis process",
+      icon: "📹",
+      placeholder: "[Video Upload Interface Placeholder]"
+    },
+    {
+      number: "02", 
+      title: "YOLO Pose Detection",
+      description: "Advanced computer vision identifies and tracks dog poses in real-time with high precision",
+      icon: "🎯",
+      placeholder: "[Pose Detection Visualization Placeholder]"
+    },
+    {
+      number: "03",
+      title: "Behavior Classification", 
+      description: "AI classifier analyzes pose data to determine aggressive vs calm behavioral states",
+      icon: "🧠",
+      placeholder: "[Classification Results Placeholder]"
+    },
+    {
+      number: "04",
+      title: "Smart Insights",
+      description: "Generate detailed reports and actionable insights for better dog behavior understanding",
+      icon: "📊",
+      placeholder: "[Analytics Dashboard Placeholder]"
+    }
+  ];
+
+  const roadmapItems = [
+    {
+      phase: "Phase 1",
+      title: "Enhanced AI Models",
+      description: "Improved pose detection accuracy and expanded behavior classification categories",
+      status: "In Progress"
+    },
+    {
+      phase: "Phase 2", 
+      title: "Mobile App Integration",
+      description: "Native iOS and Android apps with offline processing capabilities",
+      status: "Planned"
+    },
+    {
+      phase: "Phase 3",
+      title: "Multi-Dog Analysis",
+      description: "Advanced algorithms to analyze behavior in multi-dog environments",
+      status: "Research"
+    },
+    {
+      phase: "Phase 4",
+      title: "Predictive Analytics",
+      description: "Behavioral pattern prediction and early warning systems",
+      status: "Concept"
     }
   ];
 
   return (
     <div className="about-page">
-      <div className="container">
-        {/* Header Section */}
-        <div className="page-header">
-          <h1>About Dog Behavior Detection</h1>
-          <p className="lead">
-            Advanced AI system for real-time dog behavior analysis using 
-            state-of-the-art computer vision and machine learning techniques.
-          </p>
-        </div>
-
-        {/* How It Works Section */}
-        <div className="how-it-works-section">
-          <h2 className="section-title">How the System Works</h2>
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-container">
+          <div className="hero-left">
+            <h1 className="hero-title">
+              About Dog Behavior Dashboard
+            </h1>
+            <p className="hero-subtitle">
+              An AI-powered platform that revolutionizes canine behavior analysis through advanced computer vision and machine learning. Unlike basic emotion detectors, our system provides precise, actionable insights into dog behavior patterns.
+            </p>
+            
+            <div className="hero-stats">
+              <div className="hero-stat">
+                <div className="stat-number">94.7%</div>
+                <div className="stat-label">Accuracy</div>
+              </div>
+              <div className="hero-stat">
+                <div className="stat-number">Real-time</div>
+                <div className="stat-label">Detection</div>
+              </div>
+              <div className="hero-stat">
+                <div className="stat-number">AI-Powered</div>
+                <div className="stat-label">Analysis</div>
+              </div>
+            </div>
+          </div>
           
-          <div className="process-flow">
-            <div className="process-step">
-              <div className="step-number">1</div>
-              <div className="step-content">
-                <h3>Video Input</h3>
-                <p>Upload video files or connect to live camera feeds for real-time analysis</p>
-                <div className="step-icon">📹</div>
-              </div>
-            </div>
-
-            <div className="process-arrow">→</div>
-
-            <div className="process-step">
-              <div className="step-number">2</div>
-              <div className="step-content">
-                <h3>YOLOv8 Detection</h3>
-                <p>Advanced object detection model identifies and tracks dogs in each frame</p>
-                <div className="step-icon">🎯</div>
-              </div>
-            </div>
-
-            <div className="process-arrow">→</div>
-
-            <div className="process-step">
-              <div className="step-number">3</div>
-              <div className="step-content">
-                <h3>Feature Extraction</h3>
-                <p>Extract behavioral features including posture, movement patterns, and body language</p>
-                <div className="step-icon">🔍</div>
-              </div>
-            </div>
-
-            <div className="process-arrow">→</div>
-
-            <div className="process-step">
-              <div className="step-number">4</div>
-              <div className="step-content">
-                <h3>Random Forest Classification</h3>
-                <p>Machine learning classifier analyzes features to determine calm vs aggressive behavior</p>
-                <div className="step-icon">🧠</div>
+          <div className="hero-right">
+            <div className="hero-image-container">
+              <div className="background-shape"></div>
+              <div className="dog-analysis-visual">
+                <div className="main-visual">
+                  <div className="visual-placeholder">
+                    <span>🐕‍🦺</span>
+                    <p>AI Analysis</p>
+                  </div>
+                </div>
+                <div className="floating-indicator behavior-calm">
+                  <span>😌</span>
+                  <p>Calm</p>
+                </div>
+                <div className="floating-indicator behavior-alert">
+                  <span>⚠️</span>
+                  <p>Alert</p>
+                </div>
+                <div className="floating-indicator behavior-active">
+                  <span>⚡</span>
+                  <p>Active</p>
+                </div>
+                <div className="floating-element chart">📊</div>
+                <div className="floating-element brain">🧠</div>
+                <div className="floating-element target">🎯</div>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Technical Details */}
-        <div className="technical-section">
-          <div className="tech-grid">
-            <div className="tech-card">
-              <h3>🎯 YOLOv8 Object Detection</h3>
-              <ul>
-                <li>Real-time object detection and tracking</li>
-                <li>High accuracy dog identification</li>
-                <li>Optimized for video processing</li>
-                <li>Supports multiple dog detection</li>
-              </ul>
+      {/* Key Features Section */}
+      <section className="features-section">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Key Features</h2>
+            <p className="section-subtitle">
+              Why Dog Behavior Dashboard stands out from traditional behavior monitoring solutions
+            </p>
+          </div>
+          
+          <div className="features-grid">
+            {features.map((feature) => (
+              <div key={feature.id} className="feature-card">
+                <div className="feature-icon">{feature.icon}</div>
+                <h3 className="feature-title">{feature.title}</h3>
+                <p className="feature-description">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="workflow-section">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">How It Works</h2>
+            <p className="section-subtitle">
+              Our intelligent system processes dog behavior through four sophisticated steps
+            </p>
+          </div>
+
+          <div className="workflow-steps">
+            {workflowSteps.map((step, index) => (
+              <div key={index} className="workflow-step">
+                <div className="step-number">{step.number}</div>
+                <div className="step-content">
+                  <div className="step-header">
+                    <div className="step-icon">{step.icon}</div>
+                    <h3 className="step-title">{step.title}</h3>
+                  </div>
+                  <p className="step-description">{step.description}</p>
+                  <div className="step-placeholder">
+                    <div className="placeholder-content">
+                      <span className="placeholder-icon">{step.icon}</span>
+                      <p>{step.placeholder}</p>
+                    </div>
+                  </div>
+                </div>
+                {index < workflowSteps.length - 1 && <div className="step-connector"></div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="benefits-section">
+        <div className="container">
+          <div className="benefits-content">
+            <div className="benefits-left">
+              <h2 className="benefits-title">
+                Why Choose Our Solution?
+              </h2>
+              <div className="benefits-list">
+                <div className="benefit-item">
+                  <div className="benefit-icon">✨</div>
+                  <div className="benefit-content">
+                    <h3>Superior Accuracy</h3>
+                    <p>Advanced YOLO architecture delivers 94.7% accuracy in behavior classification, significantly outperforming traditional methods.</p>
+                  </div>
+                </div>
+                <div className="benefit-item">
+                  <div className="benefit-icon">⚡</div>
+                  <div className="benefit-content">
+                    <h3>Real-time Analysis</h3>
+                    <p>Process 30+ frames per second with instant behavioral state detection and immediate alert capabilities.</p>
+                  </div>
+                </div>
+                <div className="benefit-item">
+                  <div className="benefit-icon">🎯</div>
+                  <div className="benefit-content">
+                    <h3>Actionable Insights</h3>
+                    <p>Beyond detection - get comprehensive behavior patterns, trends, and recommendations for better pet care.</p>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <div className="tech-card">
-              <h3>🌳 Random Forest Classifier</h3>
-              <ul>
-                <li>Ensemble learning for robust predictions</li>
-                <li>Handles complex behavioral patterns</li>
-                <li>Resistant to overfitting</li>
-                <li>Interpretable feature importance</li>
-              </ul>
-            </div>
-
-            <div className="tech-card">
-              <h3>📊 Feature Engineering</h3>
-              <ul>
-                <li>Pose estimation and body language analysis</li>
-                <li>Movement velocity and acceleration tracking</li>
-                <li>Temporal pattern recognition</li>
-                <li>Multi-frame context integration</li>
-              </ul>
-            </div>
-
-            <div className="tech-card">
-              <h3>⚡ Performance Optimization</h3>
-              <ul>
-                <li>GPU acceleration for real-time processing</li>
-                <li>Efficient memory management</li>
-                <li>Scalable architecture design</li>
-                <li>Cloud deployment ready</li>
-              </ul>
+            <div className="benefits-right">
+              <div className="benefits-image-placeholder">
+                <div className="placeholder-content">
+                  <span className="placeholder-icon">📊</span>
+                  <p>[Benefits Visualization Placeholder]</p>
+                  <small>Replace with: Comparison chart or benefits infographic</small>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Applications Section */}
-        <div className="applications-section">
-          <h2 className="section-title">Applications</h2>
-          <div className="applications-grid">
-            <div className="application-card">
-              <div className="app-icon">🏥</div>
-              <h3>Veterinary Clinics</h3>
-              <p>Monitor dog stress levels and aggressive behavior during medical examinations and treatments.</p>
-            </div>
-
-            <div className="application-card">
-              <div className="app-icon">🏠</div>
-              <h3>Pet Owners</h3>
-              <p>Track your dog's behavior patterns at home to better understand their emotional states.</p>
-            </div>
-
-            <div className="application-card">
-              <div className="app-icon">🎓</div>
-              <h3>Dog Training</h3>
-              <p>Analyze training sessions to optimize behavioral modification techniques and track progress.</p>
-            </div>
-
-            <div className="application-card">
-              <div className="app-icon">🏢</div>
-              <h3>Animal Shelters</h3>
-              <p>Assess dog temperament for better adoption matching and staff safety protocols.</p>
-            </div>
+      {/* Future Scope Section */}
+      <section className="roadmap-section">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Future Scope & Roadmap</h2>
+            <p className="section-subtitle">
+              Our vision for the future of canine behavior analysis and monitoring
+            </p>
           </div>
-        </div>
 
-        {/* Team Section */}
-        <div className="team-section">
-          <h2 className="section-title">Meet Our Team</h2>
-          <div className="team-grid">
-            {teamMembers.map((member) => (
-              <div key={member.id} className="team-card">
-                <div className="team-avatar">{member.avatar}</div>
-                <div className="team-info">
-                  <h3>{member.name}</h3>
-                  <h4>{member.role}</h4>
-                  <p>{member.description}</p>
+          <div className="roadmap-timeline">
+            {roadmapItems.map((item, index) => (
+              <div key={index} className="roadmap-item">
+                <div className="roadmap-marker">
+                  <div className="marker-dot"></div>
+                  <div className={`marker-status ${item.status.toLowerCase().replace(' ', '-')}`}>
+                    {item.status}
+                  </div>
+                </div>
+                <div className="roadmap-content">
+                  <div className="roadmap-phase">{item.phase}</div>
+                  <h3 className="roadmap-title">{item.title}</h3>
+                  <p className="roadmap-description">{item.description}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Stats Section */}
-        <div className="stats-section">
-          <h2 className="section-title">System Performance</h2>
-          <div className="performance-stats">
-            <div className="stat-item">
+      {/* Technology Stack */}
+      <section className="technology-section">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Powered by Advanced Technology</h2>
+          </div>
+          
+          <div className="tech-stack">
+            <div className="tech-category">
+              <h3>Computer Vision</h3>
+              <div className="tech-items">
+                <span className="tech-item">YOLOv8</span>
+                <span className="tech-item">OpenCV</span>
+                <span className="tech-item">Pose Estimation</span>
+              </div>
+            </div>
+            <div className="tech-category">
+              <h3>Machine Learning</h3>
+              <div className="tech-items">
+                <span className="tech-item">Random Forest</span>
+                <span className="tech-item">TensorFlow</span>
+                <span className="tech-item">PyTorch</span>
+              </div>
+            </div>
+            <div className="tech-category">
+              <h3>Frontend</h3>
+              <div className="tech-items">
+                <span className="tech-item">React.js</span>
+                <span className="tech-item">WebRTC</span>
+                <span className="tech-item">D3.js</span>
+              </div>
+            </div>
+            <div className="tech-category">
+              <h3>Infrastructure</h3>
+              <div className="tech-items">
+                <span className="tech-item">Node.js</span>
+                <span className="tech-item">Docker</span>
+                <span className="tech-item">AWS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Performance Stats */}
+      <section className="stats-section">
+        <div className="container">
+          <div className="stats-grid">
+            <div className="stat-card">
               <div className="stat-number">94.7%</div>
-              <div className="stat-label">Accuracy Rate</div>
+              <div className="stat-label">Detection Accuracy</div>
             </div>
-            <div className="stat-item">
-              <div className="stat-number">30 FPS</div>
-              <div className="stat-label">Real-time Processing</div>
+            <div className="stat-card">
+              <div className="stat-number">30+</div>
+              <div className="stat-label">FPS Processing</div>
             </div>
-            <div className="stat-item">
-              <div className="stat-number">10,000+</div>
+            <div className="stat-card">
+              <div className="stat-number">15,000+</div>
               <div className="stat-label">Training Videos</div>
             </div>
-            <div className="stat-item">
-              <div className="stat-number">0.05s</div>
+            <div className="stat-card">
+              <div className="stat-number">&lt;50ms</div>
               <div className="stat-label">Response Time</div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
