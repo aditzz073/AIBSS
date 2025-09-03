@@ -10,6 +10,7 @@ const LiveFeedPage = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState(null);
   const [analysisInterval, setAnalysisInterval] = useState(null);
+  const [webcamReady, setWebcamReady] = useState(false);
 
   // Webcam constraints
   const videoConstraints = {
@@ -20,12 +21,20 @@ const LiveFeedPage = () => {
 
   // Capture frame from webcam and send to backend
   const captureAndAnalyze = useCallback(async () => {
-    if (!webcamRef.current || !isStreaming) {
+    console.log('🔍 captureAndAnalyze called, isStreaming:', isStreaming, 'webcamReady:', webcamReady);
+    
+    if (!webcamRef.current || !isStreaming || !webcamReady) {
+      console.log('❌ Webcam not ready:', { 
+        webcamRef: !!webcamRef.current, 
+        isStreaming, 
+        webcamReady 
+      });
       return;
     }
 
     try {
       setIsAnalyzing(true);
+      console.log('📸 Capturing frame...');
       
       // Capture screenshot from webcam
       const imageSrc = webcamRef.current.getScreenshot();
@@ -33,25 +42,36 @@ const LiveFeedPage = () => {
       if (!imageSrc) {
         throw new Error('Failed to capture frame from webcam');
       }
+      
+      console.log('✅ Frame captured, size:', imageSrc.length);
 
       // Convert base64 to File object
       const response = await fetch(imageSrc);
       const blob = await response.blob();
       const file = new File([blob], 'webcam-frame.jpg', { type: 'image/jpeg' });
+      
+      console.log('📤 Sending to API, file size:', file.size);
 
       // Send frame to backend
       const result = await analyzeLiveFrame(file);
       
+      console.log('📥 Live feed API response:', result); // Debug log
+      
       setPrediction({
-        behavior: result.prediction || 'Unknown',
+        behavior: result.classification || result.prediction || 'Unknown',
         confidence: result.confidence || 0,
         timestamp: new Date().toLocaleTimeString(),
         processing_time: result.processing_time,
+        reason: result.reason,
+        detections: result.detections || [],
+        dog_detected: result.dog_detected,
         error: false
       });
 
+      console.log('✅ Prediction set successfully');
+
     } catch (err) {
-      console.error('Error analyzing frame:', err);
+      console.error('❌ Error analyzing frame:', err);
       setPrediction({
         behavior: 'Analysis Error',
         confidence: 0,
@@ -62,21 +82,35 @@ const LiveFeedPage = () => {
     } finally {
       setIsAnalyzing(false);
     }
-  }, [isStreaming]);
+  }, [isStreaming, webcamReady]);
 
   // Start webcam stream and analysis
   const startWebcam = useCallback(() => {
+    console.log('🎬 Starting webcam...');
     setIsStreaming(true);
     setError(null);
+    setWebcamReady(false);
     
-    // Start analyzing frames every 3 seconds
-    const interval = setInterval(captureAndAnalyze, 3000);
-    setAnalysisInterval(interval);
-  }, [captureAndAnalyze]);
+    console.log('✅ Webcam stream started, waiting for ready state...');
+  }, []);
+
+  // Set up analysis interval when webcam becomes ready
+  useEffect(() => {
+    if (isStreaming && webcamReady && !analysisInterval) {
+      console.log('⏰ Setting up interval for analysis every 3 seconds');
+      const interval = setInterval(() => {
+        console.log('🔄 Interval triggered, calling captureAndAnalyze');
+        captureAndAnalyze();
+      }, 3000);
+      setAnalysisInterval(interval);
+      console.log('✅ Analysis interval started, interval ID:', interval);
+    }
+  }, [isStreaming, webcamReady, analysisInterval, captureAndAnalyze]);
 
   // Stop webcam stream and analysis
   const stopWebcam = useCallback(() => {
     setIsStreaming(false);
+    setWebcamReady(false);
     setPrediction(null);
     setIsAnalyzing(false);
     setError(null);
@@ -92,6 +126,14 @@ const LiveFeedPage = () => {
     console.error('Webcam error:', error);
     setError('Unable to access webcam. Please ensure you have granted camera permissions.');
     setIsStreaming(false);
+    setWebcamReady(false);
+  }, []);
+
+  // Handle when webcam stream is loaded and ready
+  const handleWebcamReady = useCallback(() => {
+    console.log('📹 Webcam stream is ready');
+    setWebcamReady(true);
+    setError(null);
   }, []);
 
   // Cleanup on component unmount
@@ -124,6 +166,7 @@ const LiveFeedPage = () => {
                     screenshotFormat="image/jpeg"
                     videoConstraints={videoConstraints}
                     onUserMediaError={handleUserMediaError}
+                    onUserMedia={handleWebcamReady}
                     className="webcam-feed"
                   />
                 ) : (
@@ -137,6 +180,13 @@ const LiveFeedPage = () => {
                   <div className="analyzing-overlay">
                     <div className="analyzing-spinner"></div>
                     <span>Analyzing...</span>
+                  </div>
+                )}
+                
+                {isStreaming && !webcamReady && (
+                  <div className="analyzing-overlay">
+                    <div className="analyzing-spinner"></div>
+                    <span>Starting webcam...</span>
                   </div>
                 )}
               </div>
@@ -209,10 +259,36 @@ const LiveFeedPage = () => {
                       </div>
                     )}
 
+                    {prediction.reason && (
+                      <div className="reason-section">
+                        <div className="reason-label">Analysis:</div>
+                        <div className="reason-text">{prediction.reason}</div>
+                      </div>
+                    )}
+
+                    {prediction.detections && prediction.detections.length > 0 && (
+                      <div className="detections-section">
+                        <div className="detections-label">Objects Detected:</div>
+                        <div className="detections-list">
+                          {prediction.detections.map((detection, index) => (
+                            <div key={index} className="detection-item">
+                              <span className="detection-class">{detection.class}</span>
+                              <span className="detection-confidence">
+                                {Math.round(detection.confidence * 100)}%
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
                     <div className="analysis-meta">
                       <p><strong>Last updated:</strong> {prediction.timestamp}</p>
+                      {prediction.dog_detected !== undefined && (
+                        <p><strong>Dog detected:</strong> {prediction.dog_detected ? 'Yes' : 'No'}</p>
+                      )}
                       {prediction.processing_time && (
-                        <p><strong>Processing time:</strong> {prediction.processing_time.toFixed(2)}s</p>
+                        <p><strong>Processing time:</strong> {prediction.processing_time.toFixed(3)}s</p>
                       )}
                       {prediction.error && prediction.errorMessage && (
                         <p className="error-detail"><strong>Error:</strong> {prediction.errorMessage}</p>

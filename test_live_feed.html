@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Feed Test</title>
+</head>
+<body>
+    <h1>Live Feed API Test</h1>
+    <input type="file" id="fileInput" accept="image/*">
+    <button onclick="testLiveFeed()">Test Live Feed API</button>
+    <div id="results"></div>
+
+    <script>
+        async function testLiveFeed() {
+            const fileInput = document.getElementById('fileInput');
+            const resultsDiv = document.getElementById('results');
+            
+            if (!fileInput.files[0]) {
+                alert('Please select an image file first');
+                return;
+            }
+
+            try {
+                const formData = new FormData();
+                formData.append('file', fileInput.files[0]);
+
+                console.log('Sending request to live feed API...');
+                
+                const response = await fetch('http://localhost:8000/analyze_live', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('Response status:', response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                console.log('API Response:', result);
+
+                resultsDiv.innerHTML = `
+                    <h3>API Response:</h3>
+                    <pre>${JSON.stringify(result, null, 2)}</pre>
+                `;
+
+            } catch (error) {
+                console.error('Error:', error);
+                resultsDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
