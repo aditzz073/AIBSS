@@ -35,6 +35,10 @@ const HomePage = () => {
                 <span>🎥</span>
                 Start Analysis
               </Link>
+              <Link to="/live" className="btn btn-secondary">
+                <span>📹</span>
+                Live Feed
+              </Link>
               <Link to="/dashboard" className="btn btn-secondary">
                 <span>📊</span>
                 View Dashboard
