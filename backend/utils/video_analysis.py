@@ -128,15 +128,18 @@ class VideoAggressionDetector:
             # Determine final classification
             if aggression_score >= self.aggression_threshold:
                 classification = "AGGRESSIVE"
+                prediction = "Aggressive"
                 reason = self._get_aggression_reason(detections)
             else:
                 classification = "NON-AGGRESSIVE"
+                prediction = "Non-Aggressive"
                 reason = "No significant aggressive behavior detected"
             
             processing_time = time.time() - start_time
             
             return {
                 "classification": classification,
+                "prediction": prediction,  # Added for frontend compatibility
                 "confidence": round(max(aggression_score, max_detection_confidence), 3),
                 "dog_detected": dog_detected,
                 "detections": detections,
@@ -181,7 +184,7 @@ class VideoAggressionDetector:
         else:
             return "Multiple risk indicators present"
     
-    def analyze_video_file(self, file: UploadFile, max_frames: int = 100, frame_skip: int = 5) -> Dict:
+    def analyze_video_file(self, file: UploadFile, max_frames: int = 200, frame_skip: int = 2) -> Dict:
         """
         Analyze uploaded video file using frame-by-frame processing with majority vote.
         
@@ -281,10 +284,12 @@ class VideoAggressionDetector:
             # Determine final classification
             if aggressive_votes > non_aggressive_votes:
                 final_classification = "AGGRESSIVE"
+                prediction_format = "Aggressive"
                 final_confidence = np.mean(aggressive_confidences) if aggressive_confidences else 0.0
                 reason = f"Aggressive behavior detected in {aggressive_votes}/{len(frame_results)} frames"
             elif non_aggressive_votes > aggressive_votes:
                 final_classification = "NON-AGGRESSIVE"
+                prediction_format = "Non-Aggressive"
                 final_confidence = np.mean(non_aggressive_confidences) if non_aggressive_confidences else 0.0
                 reason = "No significant aggressive behavior detected"
             else:
@@ -295,10 +300,12 @@ class VideoAggressionDetector:
                 
                 if avg_agg_conf >= avg_non_agg_conf or avg_aggression_score >= self.aggression_threshold:
                     final_classification = "AGGRESSIVE"
+                    prediction_format = "Aggressive"
                     final_confidence = avg_agg_conf
                     reason = f"Tie resolved by confidence/aggression score"
                 else:
                     final_classification = "NON-AGGRESSIVE"
+                    prediction_format = "Non-Aggressive"
                     final_confidence = avg_non_agg_conf
                     reason = "Tie resolved - no clear aggressive behavior"
             
@@ -320,6 +327,7 @@ class VideoAggressionDetector:
             
             return {
                 "classification": final_classification,
+                "prediction": prediction_format,  # Added for frontend compatibility
                 "confidence": round(final_confidence, 3),
                 "detections": sample_detections,
                 "processing_time": total_processing_time,
