@@ -10,6 +10,17 @@ const HeatmapPage = () => {
   const [error, setError] = useState(null);
   const [selectedDetection, setSelectedDetection] = useState(null);
   const [filterType, setFilterType] = useState('all'); // 'all', 'aggressive', 'non-aggressive'
+  const [mapCenter, setMapCenter] = useState([12.9716, 77.5946]); // Default to Bangalore
+  const [mapZoom, setMapZoom] = useState(11);
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationLoading, setLocationLoading] = useState(false);
+  const [showAddDataForm, setShowAddDataForm] = useState(false);
+  const [newDetectionForm, setNewDetectionForm] = useState({
+    lat: '',
+    lon: '',
+    risk: 0.5,
+    label: 'Non-Aggressive'
+  });
 
   useEffect(() => {
     fetchDetections();
@@ -48,6 +59,113 @@ const HeatmapPage = () => {
     if (risk >= 0.4) return 'Medium';
     if (risk >= 0.2) return 'Low';
     return 'Very Low';
+  };
+
+  // Get user's current location
+  const getCurrentLocation = () => {
+    setLocationLoading(true);
+    
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by this browser.');
+      setLocationLoading(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLocation({ lat: latitude, lon: longitude });
+        setMapCenter([latitude, longitude]);
+        setMapZoom(13); // Zoom closer for user location
+        setLocationLoading(false);
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        let errorMessage = 'Unable to retrieve your location.';
+        
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            errorMessage = 'Location access denied. Please enable location permissions.';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorMessage = 'Location information is unavailable.';
+            break;
+          case error.TIMEOUT:
+            errorMessage = 'Location request timed out.';
+            break;
+        }
+        
+        alert(errorMessage);
+        setLocationLoading(false);
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 300000 // 5 minutes
+      }
+    );
+  };
+
+  // Add new mock detection
+  const addNewDetection = () => {
+    const { lat, lon, risk, label } = newDetectionForm;
+    
+    // Validation
+    if (!lat || !lon) {
+      alert('Please enter valid latitude and longitude values.');
+      return;
+    }
+
+    const latitude = parseFloat(lat);
+    const longitude = parseFloat(lon);
+
+    if (isNaN(latitude) || isNaN(longitude)) {
+      alert('Please enter valid numeric coordinates.');
+      return;
+    }
+
+    if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+      alert('Please enter valid coordinate ranges (lat: -90 to 90, lon: -180 to 180).');
+      return;
+    }
+
+    const newDetection = {
+      lat: latitude,
+      lon: longitude,
+      risk: parseFloat(risk),
+      label: label,
+      timestamp: new Date().toISOString(),
+      userAdded: true // Flag to identify user-added detections
+    };
+
+    setDetections(prev => [...prev, newDetection]);
+    
+    // Reset form
+    setNewDetectionForm({
+      lat: '',
+      lon: '',
+      risk: 0.5,
+      label: 'Non-Aggressive'
+    });
+    
+    setShowAddDataForm(false);
+    
+    // Optional: Center map on new detection
+    setMapCenter([latitude, longitude]);
+    setMapZoom(15);
+  };
+
+  // Auto-fill coordinates with current location
+  const useCurrentLocationForNewDetection = () => {
+    if (userLocation) {
+      setNewDetectionForm(prev => ({
+        ...prev,
+        lat: userLocation.lat.toFixed(6),
+        lon: userLocation.lon.toFixed(6)
+      }));
+    } else {
+      alert('Please get your current location first.');
+    }
   };
 
   const filteredDetections = detections.filter(detection => {
@@ -97,7 +215,7 @@ const HeatmapPage = () => {
 
       <div className="heatmap-controls">
         <div className="stats-container">
-          <div className="stat-card">
+          <div className="stat-card total">
             <h3>{detections.length}</h3>
             <p>Total Detections</p>
           </div>
@@ -111,8 +229,24 @@ const HeatmapPage = () => {
           </div>
         </div>
 
+        <div className="control-buttons">
+          <button 
+            onClick={getCurrentLocation} 
+            disabled={locationLoading}
+            className="location-button"
+          >
+            {locationLoading ? 'Getting Location...' : '📍 My Location'}
+          </button>
+          
+          <button 
+            onClick={() => setShowAddDataForm(true)}
+            className="add-data-button"
+          >
+            ➕ Add Detection
+          </button>
+        </div>
+
         <div className="filter-controls">
-          <label>Filter by type:</label>
           <select 
             value={filterType} 
             onChange={(e) => setFilterType(e.target.value)}
@@ -154,15 +288,40 @@ const HeatmapPage = () => {
       <div className="heatmap-container">
         <div className="map-wrapper">
           <MapContainer
-            center={[12.9716, 77.5946]} // Bangalore coordinates
-            zoom={11}
+            center={mapCenter}
+            zoom={mapZoom}
             style={{ height: '500px', width: '100%' }}
             className="heatmap-map"
+            key={`${mapCenter[0]}-${mapCenter[1]}-${mapZoom}`} // Force re-render when center/zoom changes
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
+            
+            {/* User location marker */}
+            {userLocation && (
+              <CircleMarker
+                center={[userLocation.lat, userLocation.lon]}
+                radius={12}
+                pathOptions={{
+                  color: '#2563eb',
+                  fillColor: '#3b82f6',
+                  fillOpacity: 0.8,
+                  weight: 3,
+                }}
+              >
+                <Popup>
+                  <div className="map-popup">
+                    <h4>📍 Your Location</h4>
+                    <p><strong>Coordinates:</strong> {userLocation.lat.toFixed(6)}, {userLocation.lon.toFixed(6)}</p>
+                  </div>
+                </Popup>
+                <Tooltip direction="top" offset={[0, -15]} opacity={1}>
+                  <span>Your Current Location</span>
+                </Tooltip>
+              </CircleMarker>
+            )}
             
             {filteredDetections.map((detection, index) => (
               <CircleMarker
@@ -173,7 +332,8 @@ const HeatmapPage = () => {
                   color: getRiskColor(detection.risk),
                   fillColor: getRiskColor(detection.risk),
                   fillOpacity: 0.7,
-                  weight: 2,
+                  weight: detection.userAdded ? 3 : 2, // Thicker border for user-added
+                  dashArray: detection.userAdded ? '5,5' : null, // Dashed border for user-added
                 }}
                 eventHandlers={{
                   click: () => setSelectedDetection(detection),
@@ -181,7 +341,7 @@ const HeatmapPage = () => {
               >
                 <Popup>
                   <div className="map-popup">
-                    <h4>Detection Details</h4>
+                    <h4>Detection Details {detection.userAdded && '(User Added)'}</h4>
                     <p><strong>Risk Level:</strong> {getRiskLevel(detection.risk)} ({detection.risk.toFixed(2)})</p>
                     <p><strong>Behavior:</strong> {detection.label}</p>
                     <p><strong>Location:</strong> {detection.lat.toFixed(4)}, {detection.lon.toFixed(4)}</p>
@@ -190,7 +350,7 @@ const HeatmapPage = () => {
                 </Popup>
                 
                 <Tooltip direction="top" offset={[0, -10]} opacity={1}>
-                  <span>Risk: {detection.risk.toFixed(1)} - {detection.label}</span>
+                  <span>Risk: {detection.risk.toFixed(1)} - {detection.label} {detection.userAdded && '(Custom)'}</span>
                 </Tooltip>
               </CircleMarker>
             ))}
@@ -232,7 +392,7 @@ const HeatmapPage = () => {
                   </td>
                   <td>
                     <span className={`label ${detection.label.toLowerCase().replace(' ', '-')}`}>
-                      {detection.label}
+                      {detection.label} {detection.userAdded && '(Custom)'}
                     </span>
                   </td>
                   <td>
@@ -258,7 +418,7 @@ const HeatmapPage = () => {
         <div className="detection-modal" onClick={() => setSelectedDetection(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>Detection Details</h3>
+              <h3>Detection Details {selectedDetection.userAdded && '(User Added)'}</h3>
               <button
                 className="close-button"
                 onClick={() => setSelectedDetection(null)}
@@ -289,6 +449,121 @@ const HeatmapPage = () => {
           </div>
           </div>
         )}
+
+      {/* Add Detection Data Form Modal */}
+      {showAddDataForm && (
+        <div className="detection-modal" onClick={() => setShowAddDataForm(false)}>
+          <div className="modal-content add-data-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h3>Add New Detection Data</h3>
+              <button
+                className="close-button"
+                onClick={() => setShowAddDataForm(false)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="form-section">
+                <h4>Location Coordinates</h4>
+                <div className="coordinate-inputs">
+                  <div className="input-group">
+                    <label>Latitude:</label>
+                    <input
+                      type="number"
+                      step="any"
+                      placeholder="e.g., 12.9716"
+                      value={newDetectionForm.lat}
+                      onChange={(e) => setNewDetectionForm(prev => ({
+                        ...prev,
+                        lat: e.target.value
+                      }))}
+                      className="coordinate-input"
+                    />
+                  </div>
+                  <div className="input-group">
+                    <label>Longitude:</label>
+                    <input
+                      type="number"
+                      step="any"
+                      placeholder="e.g., 77.5946"
+                      value={newDetectionForm.lon}
+                      onChange={(e) => setNewDetectionForm(prev => ({
+                        ...prev,
+                        lon: e.target.value
+                      }))}
+                      className="coordinate-input"
+                    />
+                  </div>
+                </div>
+                
+                {userLocation && (
+                  <button
+                    onClick={useCurrentLocationForNewDetection}
+                    className="use-location-button"
+                  >
+                    📍 Use My Current Location
+                  </button>
+                )}
+              </div>
+
+              <div className="form-section">
+                <h4>Detection Details</h4>
+                <div className="input-group">
+                  <label>Risk Level (0.0 - 1.0):</label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={newDetectionForm.risk}
+                    onChange={(e) => setNewDetectionForm(prev => ({
+                      ...prev,
+                      risk: parseFloat(e.target.value)
+                    }))}
+                    className="risk-slider"
+                  />
+                  <div className="risk-display">
+                    <span style={{color: getRiskColor(newDetectionForm.risk)}}>
+                      {newDetectionForm.risk.toFixed(1)} - {getRiskLevel(newDetectionForm.risk)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="input-group">
+                  <label>Behavior Type:</label>
+                  <select
+                    value={newDetectionForm.label}
+                    onChange={(e) => setNewDetectionForm(prev => ({
+                      ...prev,
+                      label: e.target.value
+                    }))}
+                    className="behavior-select"
+                  >
+                    <option value="Non-Aggressive">Non-Aggressive</option>
+                    <option value="Aggressive">Aggressive</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-actions">
+                <button
+                  onClick={() => setShowAddDataForm(false)}
+                  className="cancel-button"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={addNewDetection}
+                  className="add-button"
+                >
+                  Add Detection
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
