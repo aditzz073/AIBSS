@@ -6,95 +6,95 @@ const AboutPage = () => {
     {
       id: 1,
       icon: "🎯",
-      title: "Precise AI Detection",
-      description: "Advanced YOLO pose detection combined with intelligent classification algorithms for accurate behavior analysis."
+      title: "Dual-Model AI Detection",
+      description: "Advanced YOLOv8 architecture with specialized models: one for static image analysis with pose estimation, and another for real-time video processing with object detection."
     },
     {
       id: 2,
       icon: "⚡",
-      title: "Real-time Processing",
-      description: "Lightning-fast analysis that processes video feeds instantly, providing immediate insights into dog behavior."
+      title: "Real-time Video Analysis",
+      description: "Lightning-fast video processing with frame-by-frame analysis, majority vote algorithms, and comprehensive behavioral pattern detection."
     },
     {
       id: 3,
       icon: "🧠",
-      title: "Smart Classification",
-      description: "Machine learning classifier trained to distinguish between calm and aggressive behaviors with high accuracy."
+      title: "Multi-Class Recognition",
+      description: "Intelligent classification system that detects 5 distinct classes: dog biting child, chasing dog, running child, child, and dog behaviors."
     },
     {
       id: 4,
       icon: "📊",
-      title: "Comprehensive Analytics",
-      description: "Detailed behavioral insights with visual analytics and historical pattern tracking for better understanding."
+      title: "Interactive Analytics",
+      description: "Beautiful heatmap visualization with OpenStreetMap integration, real-time statistics, and comprehensive behavioral insights dashboard."
     },
     {
       id: 5,
       icon: "🔒",
-      title: "Privacy Focused",
-      description: "Your data remains secure with local processing options and privacy-first architecture design."
+      title: "Local Processing",
+      description: "Privacy-first architecture with local model inference, ensuring your data remains secure without external API dependencies."
     },
     {
       id: 6,
       icon: "🌐",
-      title: "Multi-platform",
-      description: "Works across different devices and platforms, from mobile apps to web browsers and desktop applications."
+      title: "Full-Stack Solution",
+      description: "Complete system with FastAPI backend, React frontend, live webcam integration, and cross-platform compatibility."
     }
   ];
 
   const workflowSteps = [
     {
       number: "01",
-      title: "Video Input",
-      description: "Upload video files or connect live camera feeds to start the analysis process",
+      title: "Video/Image Input",
+      description: "Upload video files, images, or connect live camera feeds through our modern React interface",
       icon: "📹",
-      placeholder: "[Video Upload Interface Placeholder]"
+      placeholder: "[Multi-format Input Interface]"
     },
     {
       number: "02", 
-      title: "YOLO Pose Detection",
-      description: "Advanced computer vision identifies and tracks dog poses in real-time with high precision",
+      title: "Dual-Model Processing",
+      description: "Route to specialized YOLOv8 models: pose estimation for images or object detection for videos/live feeds",
       icon: "🎯",
-      placeholder: "[Pose Detection Visualization Placeholder]"
+      placeholder: "[Intelligent Model Routing]"
     },
     {
       number: "03",
-      title: "Behavior Classification", 
-      description: "AI classifier analyzes pose data to determine aggressive vs calm behavioral states",
+      title: "Behavioral Classification", 
+      description: "Advanced algorithms analyze patterns and classify behaviors with confidence scoring and detailed reasoning",
       icon: "🧠",
-      placeholder: "[Classification Results Placeholder]"
+      placeholder: "[Classification Results with Confidence]"
     },
     {
       number: "04",
-      title: "Smart Insights",
-      description: "Generate detailed reports and actionable insights for better dog behavior understanding",
+      title: "Visual Analytics",
+      description: "Interactive heatmaps, real-time statistics, and comprehensive dashboards for actionable insights",
       icon: "📊",
-      placeholder: "[Analytics Dashboard Placeholder]"
+      placeholder: "[Interactive Analytics Dashboard]"
     }
   ];
 
   const roadmapItems = [
     {
-      phase: "Phase 1",
-      title: "Enhanced AI Models",
-      description: "Improved pose detection accuracy and expanded behavior classification categories",
-      status: "In Progress"
+      phase: "Phase 1 - Completed",
+      title: "Dual-Model Architecture",
+      description: "Successfully implemented specialized YOLOv8 models for image analysis and video processing with FastAPI backend",
+      status: "Complete"
     },
     {
-      phase: "Phase 2", 
-      title: "Mobile App Integration",
-      description: "Native iOS and Android apps with offline processing capabilities",
+      phase: "Phase 2 - In Progress", 
+      title: "Enhanced UI/UX",
+      description: "Beautiful modern design with interactive heatmaps, real-time analytics, and responsive web interface",
+      status: "Complete"
+    },
+    {
+      phase: "Phase 3 - Planning",
+      title: "YOLOv11 Migration",
+      description: "Upgrade to latest YOLO architecture for improved accuracy and performance optimization",
       status: "Planned"
     },
     {
-      phase: "Phase 3",
-      title: "Multi-Dog Analysis",
-      description: "Advanced algorithms to analyze behavior in multi-dog environments",
-      status: "Research"
-    },
-    {
-      phase: "Phase 4",
-      title: "Predictive Analytics",
-      description: "Behavioral pattern prediction and early warning systems",
+      phase: "Phase 4 - Future",
+      title: "Advanced Analytics",
+      description: "Predictive behavioral modeling, multi-dog scene analysis, and cloud deployment options",
       status: "Concept"
     }
   ];
@@ -109,21 +109,21 @@ const AboutPage = () => {
               About Dog Behavior Dashboard
             </h1>
             <p className="hero-subtitle">
-              An AI-powered platform that revolutionizes canine behavior analysis through advanced computer vision and machine learning. Unlike basic emotion detectors, our system provides precise, actionable insights into dog behavior patterns.
+              An AI-powered platform featuring dual YOLOv8 models for comprehensive canine behavior analysis. Our system combines static image analysis with pose estimation and real-time video processing for accurate behavioral detection and classification.
             </p>
             
             <div className="hero-stats">
               <div className="hero-stat">
-                <div className="stat-number">94.7%</div>
-                <div className="stat-label">Accuracy</div>
+                <div className="stat-number">Dual-AI</div>
+                <div className="stat-label">Models</div>
               </div>
               <div className="hero-stat">
                 <div className="stat-number">Real-time</div>
-                <div className="stat-label">Detection</div>
+                <div className="stat-label">Processing</div>
               </div>
               <div className="hero-stat">
-                <div className="stat-number">AI-Powered</div>
-                <div className="stat-label">Analysis</div>
+                <div className="stat-number">5 Classes</div>
+                <div className="stat-label">Detection</div>
               </div>
             </div>
           </div>
@@ -221,28 +221,28 @@ const AboutPage = () => {
           <div className="benefits-content">
             <div className="benefits-left">
               <h2 className="benefits-title">
-                Why Choose Our Solution?
+                Why Choose Our Dual-Model Solution?
               </h2>
               <div className="benefits-list">
                 <div className="benefit-item">
                   <div className="benefit-icon">✨</div>
                   <div className="benefit-content">
-                    <h3>Superior Accuracy</h3>
-                    <p>Advanced YOLO architecture delivers 94.7% accuracy in behavior classification, significantly outperforming traditional methods.</p>
+                    <h3>Dual-Model Architecture</h3>
+                    <p>Specialized YOLOv8 models optimized for different use cases: static image analysis with pose estimation and real-time video processing with object detection.</p>
                   </div>
                 </div>
                 <div className="benefit-item">
                   <div className="benefit-icon">⚡</div>
                   <div className="benefit-content">
-                    <h3>Real-time Analysis</h3>
-                    <p>Process 30+ frames per second with instant behavioral state detection and immediate alert capabilities.</p>
+                    <h3>Real-time Processing</h3>
+                    <p>FastAPI backend processes video frames with sub-100ms latency, supporting live webcam feeds and batch video analysis with majority vote algorithms.</p>
                   </div>
                 </div>
                 <div className="benefit-item">
                   <div className="benefit-icon">🎯</div>
                   <div className="benefit-content">
-                    <h3>Actionable Insights</h3>
-                    <p>Beyond detection - get comprehensive behavior patterns, trends, and recommendations for better pet care.</p>
+                    <h3>Comprehensive Detection</h3>
+                    <p>Advanced multi-class detection system identifies 5 distinct behaviors: dog biting child, chasing dog, running child, child, and dog with confidence scoring.</p>
                   </div>
                 </div>
               </div>
@@ -299,36 +299,96 @@ const AboutPage = () => {
           
           <div className="tech-stack">
             <div className="tech-category">
-              <h3>Computer Vision</h3>
+              <h3>AI Models</h3>
               <div className="tech-items">
                 <span className="tech-item">YOLOv8</span>
+                <span className="tech-item">Ultralytics</span>
                 <span className="tech-item">OpenCV</span>
-                <span className="tech-item">Pose Estimation</span>
+                <span className="tech-item">NumPy</span>
               </div>
             </div>
             <div className="tech-category">
-              <h3>Machine Learning</h3>
+              <h3>Backend</h3>
               <div className="tech-items">
-                <span className="tech-item">Random Forest</span>
-                <span className="tech-item">TensorFlow</span>
-                <span className="tech-item">PyTorch</span>
+                <span className="tech-item">FastAPI</span>
+                <span className="tech-item">Python 3.13</span>
+                <span className="tech-item">Uvicorn</span>
+                <span className="tech-item">Pillow</span>
               </div>
             </div>
             <div className="tech-category">
               <h3>Frontend</h3>
               <div className="tech-items">
-                <span className="tech-item">React.js</span>
-                <span className="tech-item">WebRTC</span>
-                <span className="tech-item">D3.js</span>
+                <span className="tech-item">React 19</span>
+                <span className="tech-item">React Router</span>
+                <span className="tech-item">Recharts</span>
+                <span className="tech-item">React Webcam</span>
               </div>
             </div>
             <div className="tech-category">
-              <h3>Infrastructure</h3>
+              <h3>Visualization</h3>
               <div className="tech-items">
-                <span className="tech-item">Node.js</span>
-                <span className="tech-item">Docker</span>
-                <span className="tech-item">AWS</span>
+                <span className="tech-item">Leaflet.js</span>
+                <span className="tech-item">OpenStreetMap</span>
+                <span className="tech-item">Interactive Maps</span>
+                <span className="tech-item">CSS3</span>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Current Implementation Status */}
+      <section className="implementation-section">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">Current Implementation Status</h2>
+            <p className="section-subtitle">
+              Live system with fully operational components ready for use
+            </p>
+          </div>
+          
+          <div className="implementation-grid">
+            <div className="implementation-card active">
+              <div className="status-icon">✅</div>
+              <h3>FastAPI Backend</h3>
+              <p>Running on port 8001 with dual YOLOv8 models loaded and operational</p>
+              <div className="status-badge operational">Operational</div>
+            </div>
+            
+            <div className="implementation-card active">
+              <div className="status-icon">✅</div>
+              <h3>React Frontend</h3>
+              <p>Modern React 19 interface with responsive design and interactive components</p>
+              <div className="status-badge operational">Operational</div>
+            </div>
+            
+            <div className="implementation-card active">
+              <div className="status-icon">✅</div>
+              <h3>Image Analysis</h3>
+              <p>YOLOv8 + pose estimation model for static image behavioral analysis</p>
+              <div className="status-badge operational">Operational</div>
+            </div>
+            
+            <div className="implementation-card active">
+              <div className="status-icon">✅</div>
+              <h3>Video Processing</h3>
+              <p>Real-time video analysis with object detection and majority vote algorithms</p>
+              <div className="status-badge operational">Operational</div>
+            </div>
+            
+            <div className="implementation-card active">
+              <div className="status-icon">✅</div>
+              <h3>Live Feed Support</h3>
+              <p>Webcam integration with sub-100ms processing for real-time monitoring</p>
+              <div className="status-badge operational">Operational</div>
+            </div>
+            
+            <div className="implementation-card active">
+              <div className="status-icon">✅</div>
+              <h3>Interactive Heatmaps</h3>
+              <p>Leaflet.js maps with OpenStreetMap integration and behavioral data visualization</p>
+              <div className="status-badge operational">Operational</div>
             </div>
           </div>
         </div>
@@ -339,19 +399,19 @@ const AboutPage = () => {
         <div className="container">
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-number">94.7%</div>
-              <div className="stat-label">Detection Accuracy</div>
+              <div className="stat-number">2</div>
+              <div className="stat-label">AI Models</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">30+</div>
-              <div className="stat-label">FPS Processing</div>
+              <div className="stat-number">5</div>
+              <div className="stat-label">Detection Classes</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">15,000+</div>
-              <div className="stat-label">Training Videos</div>
+              <div className="stat-number">Real-time</div>
+              <div className="stat-label">Processing</div>
             </div>
             <div className="stat-card">
-              <div className="stat-number">&lt;50ms</div>
+              <div className="stat-number">&lt;100ms</div>
               <div className="stat-label">Response Time</div>
             </div>
           </div>
